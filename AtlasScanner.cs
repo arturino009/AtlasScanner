@@ -2,7 +2,6 @@
 using System.Numerics;
 using ExileCore2;
 using ExileCore2.Shared.Enums;
-using Microsoft.Win32;
 
 namespace AtlasScanner
 {
@@ -67,7 +66,7 @@ namespace AtlasScanner
                                     if (Settings.ShowHideout) finalColor = Settings.HideoutColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentTrader"):
-                                    finalColor = Settings.HideoutColor;
+                                    if (Settings.ShowTrader) finalColor = Settings.HideoutColor;
                                     traderMaps++;
                                     break;
                                 default:
@@ -84,7 +83,7 @@ namespace AtlasScanner
                 var rect1 = new Vector2(10, 70);
                 var rect2 = new Vector2(10, 90);
                 //Graphics.DrawTextWithBackground("Found " + uniqueMaps + " unique maps", rect, Color.Green, Color.Black);
-                Graphics.DrawTextWithBackground("Found " + traderMaps + " trader maps", rect1, Color.Green, Color.Black);
+                if (Settings.ShowTrader) Graphics.DrawTextWithBackground("Found " + traderMaps + " trader maps", rect1, Color.Green, Color.Black);
                 //Graphics.DrawTextWithBackground("Found " + otherMaps + " other maps", rect2, Color.Green, Color.Black);
             }
         }

@@ -29,6 +29,8 @@ namespace AtlasScanner
         public ToggleNode ShowUnique { get; set; } = new ToggleNode(false);
         [Menu("Highlight Hideouts")]
         public ToggleNode ShowHideout { get; set; } = new ToggleNode(false);
+        [Menu("Highlight Trader")]
+        public ToggleNode ShowTrader { get; set; } = new ToggleNode(false);
         [Menu("Highlight Other (?) Maps")]
         public ToggleNode ShowOther { get; set; } = new ToggleNode(false);
 
@@ -50,6 +52,8 @@ namespace AtlasScanner
         public ColorNode UniqueColor { get; set; } = new ColorNode(Color.Brown);
         [Menu("Hideout Color")]
         public ColorNode HideoutColor { get; set; } = new ColorNode(Color.LightBlue);
+        [Menu("Trader Color")]
+        public ColorNode TraderColor { get; set; } = new ColorNode(Color.Orange);
         [Menu("Other Color")]
         public ColorNode OtherColor { get; set; } = new ColorNode(Color.Pink);
 
