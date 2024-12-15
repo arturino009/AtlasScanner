@@ -25,16 +25,17 @@ namespace AtlasScanner
                 foreach (var tile in maps)
                 {
                     var mapElement = tile.Element;
-                    var mapName = mapElement.Area.Name;
-                    var currentlyAvailable = mapElement.IsUnlocked;
-                    var completed = mapElement.IsVisited;
+                    string mapName = mapElement.Area.Name;
+                    bool currentlyAvailable = mapElement.IsUnlocked;
+                    bool completed = mapElement.IsVisited;
                     var leagueMechanic = mapElement.Children[0].Children;
+                    if (Settings.ShowOnlyAvailable && !currentlyAvailable) continue;
                     if (leagueMechanic.Count > 0)
                     {
                         foreach (var mechanic in leagueMechanic)
                         {
-                            var texture = mechanic.TextureName;
-                            var finalColor = Color.Transparent;
+                            string texture = mechanic.TextureName;
+                            Color finalColor = Color.Transparent;
                             switch (texture)
                             {
                                 case var _ when texture.Contains("AtlasIconContentMapBoss"):

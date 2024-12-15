@@ -60,5 +60,7 @@ namespace AtlasScanner
         public EmptyNode Space { get; set; } = new EmptyNode();
         [Menu("Draw map names")]
         public ToggleNode MapNames { get; set; } = new ToggleNode(false);
+        [Menu("Only higlight currently available maps")]
+        public ToggleNode ShowOnlyAvailable { get; set; } = new ToggleNode(false);
     }
 }
