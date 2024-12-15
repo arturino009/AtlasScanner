@@ -66,7 +66,7 @@ namespace AtlasScanner
                                     if (Settings.ShowHideout) finalColor = Settings.HideoutColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentTrader"):
-                                    if (Settings.ShowTrader) finalColor = Settings.HideoutColor;
+                                    if (Settings.ShowTrader) finalColor = Settings.TraderColor;
                                     traderMaps++;
                                     break;
                                 default:
