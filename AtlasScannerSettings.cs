@@ -2,6 +2,7 @@
 using ExileCore2.Shared.Attributes;
 using ExileCore2.Shared.Interfaces;
 using ExileCore2.Shared.Nodes;
+using Newtonsoft.Json;
 
 namespace AtlasScanner
 {
@@ -64,6 +65,20 @@ namespace AtlasScanner
         public EmptyNode Space { get; set; } = new EmptyNode();
         [Menu("Draw map names")]
         public ToggleNode MapNames { get; set; } = new ToggleNode(false);
+        
+        [JsonIgnore]
+        public ButtonNode ReloadLayoutTierList { get; set; } = new ButtonNode();
+        [Menu("S Tier Color")]
+        public ColorNode STierColor { get; set; } = new ColorNode(Color.Green);
+        [Menu("A Tier Color")]
+        public ColorNode ATierColor { get; set; } = new ColorNode(Color.Yellow);
+        [Menu("B Tier Color")]
+        public ColorNode BTierColor { get; set; } = new ColorNode(Color.Orange);
+        [Menu("C Tier Color")]
+        public ColorNode CTierColor { get; set; } = new ColorNode(Color.Red);
+        [Menu("D Tier Color")]
+        public ColorNode DTierColor { get; set; } = new ColorNode(Color.Purple);
+
         [Menu("Only higlight currently available maps")]
         public ToggleNode ShowOnlyAvailable { get; set; } = new ToggleNode(false);
     }
