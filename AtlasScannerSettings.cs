@@ -65,9 +65,6 @@ namespace AtlasScanner
         public EmptyNode Space { get; set; } = new EmptyNode();
         [Menu("Draw map names")]
         public ToggleNode MapNames { get; set; } = new ToggleNode(false);
-        
-        [JsonIgnore]
-        public ButtonNode ReloadLayoutTierList { get; set; } = new ButtonNode();
         [Menu("S Tier Color")]
         public ColorNode STierColor { get; set; } = new ColorNode(Color.Green);
         [Menu("A Tier Color")]

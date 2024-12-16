@@ -14,8 +14,8 @@ namespace AtlasScanner
         public List<string> STier { get; set; } = new List<string>();
         public List<string> ATier { get; set; } = new List<string>();
         public List<string> BTier { get; set; } = new List<string>();
-        public List<string> CSTier { get; set; } = new List<string>();
-        public List<string> DSTier { get; set; } = new List<string>();
+        public List<string> CTier { get; set; } = new List<string>();
+        public List<string> DTier { get; set; } = new List<string>();
     }
 
     public partial class AtlasScanner
@@ -55,11 +55,11 @@ namespace AtlasScanner
                 {
                     _colorByMapName[map.ToLowerInvariant()] = Settings.BTierColor;
                 }
-                foreach (var map in layoutTiers.CSTier)
+                foreach (var map in layoutTiers.CTier)
                 {
                     _colorByMapName[map.ToLowerInvariant()] = Settings.CTierColor;
                 }
-                foreach (var map in layoutTiers.DSTier)
+                foreach (var map in layoutTiers.DTier)
                 {
                     _colorByMapName[map.ToLowerInvariant()] = Settings.DTierColor;
                 }
