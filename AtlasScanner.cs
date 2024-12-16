@@ -5,13 +5,16 @@ using ExileCore2.Shared.Enums;
 
 namespace AtlasScanner
 {
-    public class AtlasScanner : BaseSettingsPlugin<AtlasScannerSettings>
+
+    public partial class AtlasScanner : BaseSettingsPlugin<AtlasScannerSettings>
     {
         public override bool Initialise()
         {
+            LogMessage("Atlas scanner starting ...");
+            LoadLayoutTierList();
+            Settings.ReloadLayoutTierList.OnPressed += LoadLayoutTierList;
             return true;
         }
-
 
         public override void Render()
         {
@@ -82,7 +85,7 @@ namespace AtlasScanner
                         Graphics.DrawFrame(mapElement.GetClientRect(), Settings.CitadelColor, Settings.FrameThickness.Value);
                         citadelMaps++;
                     }
-                    if (!completed && Settings.MapNames) Graphics.DrawTextWithBackground(mapName, mapElement.GetClientRect().Center, Color.White, FontAlign.Center, Color.Black);
+                    if (!completed && Settings.MapNames) Graphics.DrawTextWithBackground(mapName, mapElement.GetClientRect().Center, GetColor(mapName), FontAlign.Center, Color.Black);
                 }
                 var rect = new Vector2(10, 50);
                 var rect1 = new Vector2(10, 70);
