@@ -3,16 +3,19 @@
 
     ],
     "ATier": [
-        "steaming springs",
-        "sandpit"
+        "sandpit",
+        "crypt",
+        "crimson shores"
     ],
     "BTier": [
+        "steaming springs",
         "woodland"
     ],
     "CTier": [
-
+        "decay",
+        "hive"
     ],
     "DTier": [
-
+        "mire"
     ]
 }
