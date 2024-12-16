@@ -17,7 +17,7 @@ namespace AtlasScanner
         {
             var atlasPanel = GameController.Game.IngameState.IngameUi.WorldMap.AtlasPanel;
             int uniqueMaps = 0;
-            int otherMaps = 0;
+            int citadelMaps = 0;
             int traderMaps = 0;
             if (atlasPanel.IsVisible)
             {
@@ -72,11 +72,15 @@ namespace AtlasScanner
                                     break;
                                 default:
                                     if (Settings.ShowOther) finalColor = Settings.OtherColor;
-                                    otherMaps++;
                                     break;
                             }
                             if (finalColor != Color.Transparent) Graphics.DrawFrame(mechanic.GetClientRect(), finalColor, Settings.FrameThickness.Value);
                         }
+                    }
+                    if (!completed && Settings.ShowCitadel && (mapName.Contains("citadel")))
+                    {
+                        Graphics.DrawFrame(mapElement.GetClientRect(), Settings.CitadelColor, Settings.FrameThickness.Value);
+                        citadelMaps++;
                     }
                     if (!completed && Settings.MapNames) Graphics.DrawTextWithBackground(mapName, mapElement.GetClientRect().Center, Color.White, FontAlign.Center, Color.Black);
                 }
@@ -85,7 +89,7 @@ namespace AtlasScanner
                 var rect2 = new Vector2(10, 90);
                 //Graphics.DrawTextWithBackground("Found " + uniqueMaps + " unique maps", rect, Color.Green, Color.Black);
                 if (Settings.ShowTrader) Graphics.DrawTextWithBackground("Found " + traderMaps + " trader maps", rect1, Color.Green, Color.Black);
-                //Graphics.DrawTextWithBackground("Found " + otherMaps + " other maps", rect2, Color.Green, Color.Black);
+                //Graphics.DrawTextWithBackground("Found " + citadelMaps + " citadel maps", rect2, Color.Green, Color.Black);
             }
         }
     }

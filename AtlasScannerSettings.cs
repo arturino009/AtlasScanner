@@ -31,6 +31,8 @@ namespace AtlasScanner
         public ToggleNode ShowHideout { get; set; } = new ToggleNode(false);
         [Menu("Highlight Trader")]
         public ToggleNode ShowTrader { get; set; } = new ToggleNode(false);
+        [Menu("Highlight Citadel")]
+        public ToggleNode ShowCitadel { get; set; } = new ToggleNode(false);
         [Menu("Highlight Other (?) Maps")]
         public ToggleNode ShowOther { get; set; } = new ToggleNode(false);
 
@@ -56,6 +58,8 @@ namespace AtlasScanner
         public ColorNode TraderColor { get; set; } = new ColorNode(Color.Orange);
         [Menu("Other Color")]
         public ColorNode OtherColor { get; set; } = new ColorNode(Color.Pink);
+        [Menu("Citadel Color")]
+        public ColorNode CitadelColor { get; set; } = new ColorNode(Color.Black);
 
         public EmptyNode Space { get; set; } = new EmptyNode();
         [Menu("Draw map names")]
