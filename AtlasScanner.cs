@@ -10,9 +10,7 @@ namespace AtlasScanner
     {
         public override bool Initialise()
         {
-            LogMessage("Atlas scanner starting ...");
             LoadLayoutTierList();
-            Settings.ReloadLayoutTierList.OnPressed += LoadLayoutTierList;
             return true;
         }
 
