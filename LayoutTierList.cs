@@ -16,14 +16,21 @@ namespace AtlasScanner
         public List<string> BTier { get; set; } = new List<string>();
         public List<string> CTier { get; set; } = new List<string>();
         public List<string> DTier { get; set; } = new List<string>();
+        public List<string> FTier { get; set; } = new List<string>();
+
+    }
+    public class TierInfo
+    {
+        public string Tier { get; set; }
+        public Color Color { get; set; }
     }
 
     public partial class AtlasScanner
     {
-        private Dictionary<string, Color> _colorByMapName;
-
+        private Dictionary<string, TierInfo> _colorAndTierByMapName;
         private void LoadLayoutTierList()
         {
+
             LogMessage("Loading map layout tier list ...");
             var tierList = Path.Combine(DirectoryFullName, "map_layout_tiers.json");
             if (!File.Exists(tierList))
@@ -42,26 +49,60 @@ namespace AtlasScanner
                     return;
                 }
 
-                _colorByMapName = new Dictionary<string, Color>();
+                _colorAndTierByMapName = new Dictionary<string, TierInfo>();
+
                 foreach (var map in layoutTiers.STier)
                 {
-                    _colorByMapName[map.ToLowerInvariant()] = Settings.STierColor;
+                    _colorAndTierByMapName[map.ToLowerInvariant()] = new TierInfo
+                    {
+                        Tier = "S",
+                        Color = Settings.TierColors.STierColor
+                    };
                 }
+
                 foreach (var map in layoutTiers.ATier)
                 {
-                    _colorByMapName[map.ToLowerInvariant()] = Settings.ATierColor;
+                    _colorAndTierByMapName[map.ToLowerInvariant()] = new TierInfo
+                    {
+                        Tier = "A",
+                        Color = Settings.TierColors.ATierColor
+                    };
                 }
+
                 foreach (var map in layoutTiers.BTier)
                 {
-                    _colorByMapName[map.ToLowerInvariant()] = Settings.BTierColor;
+                    _colorAndTierByMapName[map.ToLowerInvariant()] = new TierInfo
+                    {
+                        Tier = "B",
+                        Color = Settings.TierColors.BTierColor
+                    };
                 }
+
                 foreach (var map in layoutTiers.CTier)
                 {
-                    _colorByMapName[map.ToLowerInvariant()] = Settings.CTierColor;
+                    _colorAndTierByMapName[map.ToLowerInvariant()] = new TierInfo
+                    {
+                        Tier = "C",
+                        Color = Settings.TierColors.CTierColor
+                    };
                 }
+
                 foreach (var map in layoutTiers.DTier)
                 {
-                    _colorByMapName[map.ToLowerInvariant()] = Settings.DTierColor;
+                    _colorAndTierByMapName[map.ToLowerInvariant()] = new TierInfo
+                    {
+                        Tier = "D",
+                        Color = Settings.TierColors.DTierColor
+                    };
+                }
+
+                foreach (var map in layoutTiers.FTier)
+                {
+                    _colorAndTierByMapName[map.ToLowerInvariant()] = new TierInfo
+                    {
+                        Tier = "F",
+                        Color = Settings.TierColors.FTierColor
+                    };
                 }
             }
             catch (Exception e)
@@ -72,11 +113,22 @@ namespace AtlasScanner
 
         private Color GetColor(string mapName)
         {
-            if (!string.IsNullOrEmpty(mapName) && _colorByMapName != null && _colorByMapName.TryGetValue(mapName.ToLowerInvariant(), out var color))
+            if (!string.IsNullOrEmpty(mapName) && _colorAndTierByMapName != null &&
+                _colorAndTierByMapName.TryGetValue(mapName.ToLowerInvariant(), out var tierAndColor))
             {
-                return color;
+                return tierAndColor.Color;
             }
             return Color.White;
+        }
+
+        private string GetTier(string mapName)
+        {
+            if (!string.IsNullOrEmpty(mapName) && _colorAndTierByMapName != null &&
+                _colorAndTierByMapName.TryGetValue(mapName.ToLowerInvariant(), out var tierAndColor))
+            {
+                return tierAndColor.Tier;
+            }
+            return string.Empty;
         }
     }
 }
