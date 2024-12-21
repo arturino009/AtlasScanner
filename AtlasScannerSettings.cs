@@ -34,8 +34,6 @@ namespace AtlasScanner
         public ToggleNode ShowTrader { get; set; } = new ToggleNode(false);
         [Menu("Highlight Citadel")]
         public ToggleNode ShowCitadel { get; set; } = new ToggleNode(false);
-        [Menu("Highlight Other (?) Maps")]
-        public ToggleNode ShowOther { get; set; } = new ToggleNode(false);
 
         [Menu("Boss Color")]
         public ColorNode BossColor { get; set; } = new ColorNode(Color.White);
@@ -57,8 +55,6 @@ namespace AtlasScanner
         public ColorNode HideoutColor { get; set; } = new ColorNode(Color.LightBlue);
         [Menu("Trader Color")]
         public ColorNode TraderColor { get; set; } = new ColorNode(Color.Orange);
-        [Menu("Other Color")]
-        public ColorNode OtherColor { get; set; } = new ColorNode(Color.Pink);
         [Menu("Citadel Color")]
         public ColorNode CitadelColor { get; set; } = new ColorNode(Color.Black);
 
@@ -78,5 +74,9 @@ namespace AtlasScanner
 
         [Menu("Only higlight currently available maps")]
         public ToggleNode ShowOnlyAvailable { get; set; } = new ToggleNode(false);
+        [Menu("Higlight currently available maps that have not been attempted")]
+        public ToggleNode ShowOnlyNotAttempted { get; set; } = new ToggleNode(false);
+        [Menu("Draw line to important tiles")]
+        public ToggleNode DrawLine { get; set; } = new ToggleNode(false);
     }
 }

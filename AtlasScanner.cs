@@ -27,10 +27,10 @@ namespace AtlasScanner
                 {
                     var mapElement = tile.Element;
                     string mapName = mapElement.Area.Name;
-                    bool currentlyAvailable = mapElement.IsUnlocked;
-                    bool completed = mapElement.IsVisited;
+                    bool unlocked = mapElement.IsUnlocked;
+                    bool visited = mapElement.IsVisited;
                     var leagueMechanic = mapElement.Children[0].Children;
-                    if (Settings.ShowOnlyAvailable && !currentlyAvailable) continue;
+                    if (Settings.ShowOnlyAvailable && (!unlocked != visited)) continue;
                     if (leagueMechanic.Count > 0)
                     {
                         foreach (var mechanic in leagueMechanic)
@@ -67,30 +67,49 @@ namespace AtlasScanner
                                 case var _ when texture.Contains("AtlasIconContentHideout"):
                                     if (Settings.ShowHideout) finalColor = Settings.HideoutColor;
                                     break;
-                                case var _ when texture.Contains("AtlasIconContentTrader"):
-                                    if (Settings.ShowTrader) finalColor = Settings.TraderColor;
-                                    traderMaps++;
-                                    break;
-                                default:
-                                    if (Settings.ShowOther) finalColor = Settings.OtherColor;
-                                    break;
+                                //case var _ when texture.Contains("AtlasIconContentTrader"):
+                                //    if (Settings.ShowTrader) finalColor = Settings.TraderColor;
+                                //    traderMaps++;
+                                //    break;
                             }
-                            if (finalColor != Color.Transparent) Graphics.DrawFrame(mechanic.GetClientRect(), finalColor, Settings.FrameThickness.Value);
+                            if (finalColor != Color.Transparent)
+                            {
+                                Graphics.DrawFrame(mechanic.GetClientRect(), finalColor, Settings.FrameThickness.Value);
+                            }
                         }
                     }
-                    if (!completed && Settings.ShowCitadel && (mapName.Contains("citadel")))
+                    // Citadel drawing
+                    if (Settings.ShowCitadel && mapName.Contains("Citadel") && !visited)
                     {
                         Graphics.DrawFrame(mapElement.GetClientRect(), Settings.CitadelColor, Settings.FrameThickness.Value);
                         citadelMaps++;
+                        if (Settings.DrawLine) Graphics.DrawLine(GameController.Window.GetWindowRectangleTimeCache.Center, mapElement.GetClientRect().Center, Settings.FrameThickness, Settings.CitadelColor);
                     }
-                    if (!completed && Settings.MapNames) Graphics.DrawTextWithBackground(mapName, mapElement.GetClientRect().Center, GetColor(mapName), FontAlign.Center, Color.Black);
+                    // Trader drawing
+                    if (Settings.ShowTrader && mapName == "Moment of Zen" && !visited)
+                    {
+                        Graphics.DrawFrame(mapElement.GetClientRect(), Settings.TraderColor, Settings.FrameThickness.Value);
+                        traderMaps++;
+                        if (Settings.DrawLine) Graphics.DrawLine(GameController.Window.GetWindowRectangleTimeCache.Center, mapElement.GetClientRect().Center, Settings.FrameThickness, Settings.TraderColor);
+                    }
+                    // Map name drawing
+                    if (Settings.MapNames  && !(unlocked && visited)) Graphics.DrawTextWithBackground(mapName, mapElement.GetClientRect().Center, GetColor(mapName), FontAlign.Center, Color.Black);
+                    // Not attempted map drawing
+                    if (Settings.ShowOnlyNotAttempted && !visited && unlocked)
+                    {
+                        Graphics.DrawFrame(mapElement.GetClientRect(), GetColor(mapName), Settings.FrameThickness.Value);
+                    }
                 }
                 var rect = new Vector2(10, 50);
-                var rect1 = new Vector2(10, 70);
-                var rect2 = new Vector2(10, 90);
-                //Graphics.DrawTextWithBackground("Found " + uniqueMaps + " unique maps", rect, Color.Green, Color.Black);
-                if (Settings.ShowTrader) Graphics.DrawTextWithBackground("Found " + traderMaps + " trader maps", rect1, Color.Green, Color.Black);
-                //Graphics.DrawTextWithBackground("Found " + citadelMaps + " citadel maps", rect2, Color.Green, Color.Black);
+                int offset = 15;
+                if (Settings.ShowCitadel)
+                {
+                    Graphics.DrawTextWithBackground("Found " + citadelMaps + " citadel maps", rect, Color.Green, Color.Black);
+                }
+                if (Settings.ShowTrader)
+                {
+                    Graphics.DrawTextWithBackground("Found " + traderMaps + " trader maps", new Vector2(rect.X, rect.Y += offset), Color.Green, Color.Black);
+                }
             }
         }
     }

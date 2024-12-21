@@ -1,21 +1,52 @@
 {
     "STier": [
-
+        "steppe",
+        "sandspit",
+        "rustbowl",
+        "cenotes",
+        "hive",
+        "savanna",
+        "ravine",
+        "penitentiary"
     ],
     "ATier": [
-        "sandpit",
-        "crypt",
-        "crimson shores"
+        "oasis",
+        "gothic city",
+        "creek",
+        "necropolis",
+        "slick",
+        "sulphuric caverns",
+        "spider woods",
+        "blooming field",
+        "decay",
+        "willow",
+        "burial bog"
     ],
     "BTier": [
+        "bloodwood",
+        "riverside",
+        "sump",
         "steaming springs",
-        "woodland"
+        "fortress",
+        "crypt"
     ],
     "CTier": [
-        "decay",
-        "hive"
+        "vaal foundry",
+        "crimson shores",
+        "lofty summit",
+        "backwash",
+        "forge",
+        "hidden grotto",
+        "augury",
+        "vaal factory",
+        "deserted"
     ],
     "DTier": [
-        "mire"
+        "vaal city",
+        "seepage",
+        "stone citadel",
+        "sun temple",
+        "mire",
+        "mineshaft"
     ]
 }
