@@ -1,5 +1,6 @@
 ﻿using System.Drawing;
 using System.Numerics;
+using AtlasScanner.Settings;
 using ExileCore2;
 using ExileCore2.Shared.Enums;
 
@@ -27,10 +28,11 @@ namespace AtlasScanner
                 {
                     var mapElement = tile.Element;
                     string mapName = mapElement.Area.Name;
+                    string mapTier = GetTier(mapName);
                     bool unlocked = mapElement.IsUnlocked;
                     bool visited = mapElement.IsVisited;
                     var leagueMechanic = mapElement.Children[0].Children;
-                    if (Settings.ShowOnlyAvailable && (!unlocked != visited)) continue;
+                    if (Settings.GeneralSettings.ShowOnlyAvailable && (!unlocked != visited)) continue;
                     if (leagueMechanic.Count > 0)
                     {
                         foreach (var mechanic in leagueMechanic)
@@ -40,73 +42,87 @@ namespace AtlasScanner
                             switch (texture)
                             {
                                 case var _ when texture.Contains("AtlasIconContentMapBoss"):
-                                    if (Settings.ShowBoss) finalColor = Settings.BossColor;
+                                    if (Settings.HighlightToggles.ShowBoss) finalColor = Settings.HighlightColors.BossColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentBreach"):
-                                    if (Settings.ShowBreach) finalColor = Settings.BreachColor;
+                                    if (Settings.HighlightToggles.ShowBreach) finalColor = Settings.HighlightColors.BreachColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentExpedition"):
-                                    if (Settings.ShowExpedition) finalColor = Settings.ExpeditionColor;
+                                    if (Settings.HighlightToggles.ShowExpedition) finalColor = Settings.HighlightColors.ExpeditionColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentRitual"):
-                                    if (Settings.ShowRitual) finalColor = Settings.RitualColor;
+                                    if (Settings.HighlightToggles.ShowRitual) finalColor = Settings.HighlightColors.RitualColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentDelirium"):
-                                    if (Settings.ShowDelirium) finalColor = Settings.DeliriumColor;
+                                    if (Settings.HighlightToggles.ShowDelirium) finalColor = Settings.HighlightColors.DeliriumColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentCorruption"):
-                                    if (Settings.ShowCorruption) finalColor = Settings.CorruptionColor;
+                                    if (Settings.HighlightToggles.ShowCorruption) finalColor = Settings.HighlightColors.CorruptionColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentIrradiated"):
-                                    if (Settings.ShowIrradiated) finalColor = Settings.IrradiatedColor;
+                                    if (Settings.HighlightToggles.ShowIrradiated) finalColor = Settings.HighlightColors.IrradiatedColor;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentUniqueMap"):
-                                    if (Settings.ShowUnique) finalColor = Settings.UniqueColor;
+                                    if (Settings.HighlightToggles.ShowUnique) finalColor = Settings.HighlightColors.UniqueColor;
                                     uniqueMaps++;
                                     break;
                                 case var _ when texture.Contains("AtlasIconContentHideout"):
-                                    if (Settings.ShowHideout) finalColor = Settings.HideoutColor;
+                                    if (Settings.HighlightToggles.ShowHideout) finalColor = Settings.HighlightColors.HideoutColor;
                                     break;
-                                //case var _ when texture.Contains("AtlasIconContentTrader"):
-                                //    if (Settings.ShowTrader) finalColor = Settings.TraderColor;
-                                //    traderMaps++;
-                                //    break;
+                                    //case var _ when texture.Contains("AtlasIconContentTrader"):
+                                    //    if (Settings.ShowTrader) finalColor = Settings.TraderColor;
+                                    //    traderMaps++;
+                                    //    break;
                             }
                             if (finalColor != Color.Transparent)
                             {
-                                Graphics.DrawFrame(mechanic.GetClientRect(), finalColor, Settings.FrameThickness.Value);
+                                Graphics.DrawFrame(mechanic.GetClientRect(), finalColor, Settings.GeneralSettings.FrameThickness.Value);
                             }
                         }
                     }
                     // Citadel drawing
-                    if (Settings.ShowCitadel && mapName.Contains("Citadel") && !visited)
+                    if (Settings.HighlightToggles.ShowCitadel && mapName.Contains("Citadel") && !visited)
                     {
-                        Graphics.DrawFrame(mapElement.GetClientRect(), Settings.CitadelColor, Settings.FrameThickness.Value);
+                        Graphics.DrawFrame(mapElement.GetClientRect(), Settings.HighlightColors.CitadelColor, Settings.GeneralSettings.FrameThickness.Value);
                         citadelMaps++;
-                        if (Settings.DrawLine) Graphics.DrawLine(GameController.Window.GetWindowRectangleTimeCache.Center, mapElement.GetClientRect().Center, Settings.FrameThickness, Settings.CitadelColor);
+                        if (Settings.GeneralSettings.DrawLine) 
+                            Graphics.DrawLine(GameController.Window.GetWindowRectangleTimeCache.Center, mapElement.GetClientRect().Center, Settings.GeneralSettings.FrameThickness, Settings.HighlightColors.CitadelColor);
                     }
                     // Trader drawing
-                    if (Settings.ShowTrader && mapName == "Moment of Zen" && !visited)
+                    if (Settings.HighlightToggles.ShowTrader && mapName == "Moment of Zen" && !visited)
                     {
-                        Graphics.DrawFrame(mapElement.GetClientRect(), Settings.TraderColor, Settings.FrameThickness.Value);
+                        Graphics.DrawFrame(mapElement.GetClientRect(), Settings.HighlightColors.TraderColor, Settings.GeneralSettings.FrameThickness.Value);
                         traderMaps++;
-                        if (Settings.DrawLine) Graphics.DrawLine(GameController.Window.GetWindowRectangleTimeCache.Center, mapElement.GetClientRect().Center, Settings.FrameThickness, Settings.TraderColor);
+                        if (Settings.GeneralSettings.DrawLine) Graphics.DrawLine(GameController.Window.GetWindowRectangleTimeCache.Center, mapElement.GetClientRect().Center, Settings.GeneralSettings.FrameThickness, Settings.HighlightColors.TraderColor);
                     }
+
                     // Map name drawing
-                    if (Settings.MapNames  && !(unlocked && visited)) Graphics.DrawTextWithBackground(mapName, mapElement.GetClientRect().Center, GetColor(mapName), FontAlign.Center, Color.Black);
-                    // Not attempted map drawing
-                    if (Settings.ShowOnlyNotAttempted && !visited && unlocked)
+                    if (Settings.GeneralSettings.MapNames && !(unlocked && visited) && GetTier(mapName) != "")
                     {
-                        Graphics.DrawFrame(mapElement.GetClientRect(), GetColor(mapName), Settings.FrameThickness.Value);
+                        Graphics.DrawTextWithBackground(mapName + " (" + mapTier + ")", mapElement.GetClientRect() .Center, GetColor(mapName), FontAlign.Center, Color.Black);
+                    }
+                    
+                    // Map name drawing
+                    if (Settings.GeneralSettings.MapNames && !(unlocked && visited) && GetTier(mapName) == "")
+                    {
+                        Graphics
+                            .DrawTextWithBackground(mapName, mapElement.GetClientRect()
+                            .Center, GetColor(mapName), FontAlign.Center, Color.Black);
+                    }
+
+                    // Not attempted map drawing
+                    if (Settings.GeneralSettings.ShowOnlyNotAttempted && !visited && unlocked)
+                    {
+                        Graphics.DrawFrame(mapElement.GetClientRect(), GetColor(mapName), Settings.GeneralSettings.FrameThickness.Value);
                     }
                 }
                 var rect = new Vector2(10, 50);
                 int offset = 15;
-                if (Settings.ShowCitadel)
+                if (Settings.HighlightToggles.ShowCitadel)
                 {
                     Graphics.DrawTextWithBackground("Found " + citadelMaps + " citadel maps", rect, Color.Green, Color.Black);
                 }
-                if (Settings.ShowTrader)
+                if (Settings.HighlightToggles.ShowTrader)
                 {
                     Graphics.DrawTextWithBackground("Found " + traderMaps + " trader maps", new Vector2(rect.X, rect.Y += offset), Color.Green, Color.Black);
                 }

@@ -5,7 +5,7 @@
         "rustbowl",
         "cenotes",
         "hive",
-        "savanna",
+        "savannah",
         "ravine",
         "penitentiary"
     ],
@@ -42,11 +42,13 @@
         "deserted"
     ],
     "DTier": [
-        "vaal city",
-        "seepage",
-        "stone citadel",
-        "sun temple",
-        "mire",
-        "mineshaft"
+      "vaal city",
+      "seepage",
+      "stone citadel"
+      ],
+    "FTier": [
+      "sun temple",
+      "mire",
+      "mineshaft"
     ]
 }
